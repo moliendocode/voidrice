@@ -1,13 +1,14 @@
 # Luke's lf settings
 
 # Basic vars
-set shell bash
-set shellopts '-eu'
+set shell zsh
+set shellopts '-euy'
 set ifs "\n"
 set scrolloff 10
 set icons
 set period 1
-set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+set hidden on
+#set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 
 # Vars that depend on environmental variables
 $lf -remote "send $id set previewer ${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope"

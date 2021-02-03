@@ -1,4 +1,4 @@
-let mapleader =","
+let mapleader ="<"
 
 if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
 	echo "Downloading junegunn/vim-plug to manage plugins..."
@@ -17,6 +17,36 @@ Plug 'vimwiki/vimwiki'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'tjdevries/nlua.nvim'
+Plug 'tjdevries/lsp_extensions.nvim'
+
+Plug 'tweekmonster/gofmt.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-utils/vim-man'
+Plug 'mbbill/undotree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'stsewd/fzf-checkout.vim'
+"Plug 'gruvbox-community/gruvbox'
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+"Plug 'morhetz/gruvbox'
+
+Plug 'voldikss/vim-floaterm'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'ptzz/lf.vim'
+
+Plug 'hupfdule/vimux'
+
+Plug 'kyazdani42/nvim-web-devicons'
+
 call plug#end()
 
 set title
@@ -32,11 +62,19 @@ set noshowcmd
 
 " Some basics:
 	nnoremap c "_c
-	set nocompatible
 	filetype plugin on
 	syntax on
-	set encoding=utf-8
+"	set encoding=utf-8
 	set number relativenumber
+	set tabstop=4
+	set showmatch
+	set ignorecase
+    set smartcase
+	set hidden
+	set updatetime=1000
+
+
+	"lua require('init')
 " Enable autocompletion:
 	set wildmode=longest,list,full
 " Disables automatic commenting on newline:
@@ -44,11 +82,14 @@ set noshowcmd
 " Perform dot commands over visual blocks:
 	vnoremap . :normal .<CR>
 " Goyo plugin makes text more readable when writing prose:
-	map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
+	map <leader>F :Goyo \| set bg=light \| set linebreak<CR>
 " Spell-check set to <leader>o, 'o' for 'orthography':
 	map <leader>o :setlocal spell! spelllang=en_us<CR>
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 	set splitbelow splitright
+
+let g:lf_map_keys = 0
+map <leader>fd :Lf<CR>
 
 " Nerd tree
 	map <leader>n :NERDTreeToggle<CR>
@@ -93,6 +134,13 @@ set noshowcmd
 
 " Runs a script that cleans out tex build files whenever I close out of a .tex file.
 	autocmd VimLeave *.tex !texclear %
+
+" telescope
+	nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+	nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+	nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+	nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
 
 " Ensure files are read as what I want:
 	let g:vimwiki_ext2syntax = {'.Rmd': 'markdown', '.rmd': 'markdown','.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
