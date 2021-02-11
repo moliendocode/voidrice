@@ -7,47 +7,7 @@ if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autolo
 	autocmd VimEnter * PlugInstall
 endif
 
-call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
-Plug 'tpope/vim-surround'
-Plug 'preservim/nerdtree'
-Plug 'junegunn/goyo.vim'
-Plug 'jreybert/vimagit'
-Plug 'lukesmithxyz/vimling'
-Plug 'vimwiki/vimwiki'
-Plug 'bling/vim-airline'
-Plug 'tpope/vim-commentary'
-Plug 'ap/vim-css-color'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'tjdevries/nlua.nvim'
-Plug 'tjdevries/lsp_extensions.nvim'
-
-Plug 'tweekmonster/gofmt.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
-"Plug 'gruvbox-community/gruvbox'
-Plug 'octol/vim-cpp-enhanced-highlight'
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-"Plug 'morhetz/gruvbox'
-
-Plug 'voldikss/vim-floaterm'
-Plug 'rbgrouleff/bclose.vim'
-Plug 'ptzz/lf.vim'
-
-Plug 'hupfdule/vimux'
-
-Plug 'kyazdani42/nvim-web-devicons'
-
-call plug#end()
+source $HOME/.config/nvim/plug_init.vim
 
 set title
 set bg=light
@@ -72,7 +32,8 @@ set noshowcmd
     set smartcase
 	set hidden
 	set updatetime=1000
-
+	set completeopt=menuone,noinsert,noselect
+	let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 	"lua require('init')
 " Enable autocompletion:
@@ -172,10 +133,23 @@ map <leader>fd :Lf<CR>
 " Recompile dwmblocks on config edit.
 	autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
 
+" LSP
+lua << EOF
+
+require'lspconfig'.pyls.setup{ on_attach=require'completion'.on_attach }
+
+require'lspconfig'.bashls.setup{ on_attach=require'completion'.on_attach }
+
+require'lspconfig'.rust_analyzer.setup{ on_attach=require'completion'.on_attach }
+
+require'lspconfig'.gopls.setup{ on_attach=require'completion'.on_attach }
+EOF
+
 " Turns off highlighting on the bits of code that are changed, so the line that is changed is highlighted but the actual text that has changed stands out on the line and is readable.
 if &diff
     highlight! link DiffText MatchParen
 endif
+
 
 " Function for toggling the bottom statusbar:
 let s:hidden_all = 1
