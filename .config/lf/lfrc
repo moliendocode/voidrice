@@ -1,13 +1,15 @@
-# Luke's lf settings
-
 # Basic vars
+#set previewer ./scripts/preview
+set preview true
 set shell zsh
 set shellopts '-euy'
 set ifs "\n"
 set scrolloff 10
-set icons
+set icons true
 set period 1
 set hidden on
+set ignorecase true
+set drawbox true
 #set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 
 # Vars that depend on environmental variables
